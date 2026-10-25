@@ -7,6 +7,7 @@ import Input from "./components/Input";
 import Button from "./components/Button";
 
 function App() {
+  const key = import.meta.env.VITE_API_KEY;
   const [location, setLocation] = useState("Delhi");
   const [localtime, setLocaltime] = useState("");
   const [temp, setTemp] = useState("");
@@ -18,9 +19,9 @@ function App() {
 
   useEffect(() => {
     fetch(
-      `https://api.weatherapi.com/v1/current.json?key=e14e78f2a4d947e2ac7132709262510&q=${location}`,
+      `https://api.weatherapi.com/v1/current.json?key=${key}&q=${location}`,
     ).then((res) => res.json()).then((res) => {
-      setTemp(res.location.temp_c);
+      setTemp(res.current.temp_c);
       setLocaltime(res.location.localtime);
       setCondition(res.current.condition.text);
       setIcon(res.current.condition.icon);
@@ -52,8 +53,9 @@ function App() {
               </div>
             </div>
 
-            {/* Temperature & Condition */}
-            <div className="text-5xl font-extrabold tracking-tight">{temp}</div>
+            <div className="text-5xl font-extrabold tracking-tight">
+              {temp}
+            </div>
             <p className="text-sm font-medium text-blue-100 mt-1">
               {condition}
             </p>
