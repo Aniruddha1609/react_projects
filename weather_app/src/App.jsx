@@ -18,15 +18,19 @@ function App() {
   );
 
   useEffect(() => {
-    fetch(
-      `https://api.weatherapi.com/v1/current.json?key=${key}&q=${location}`,
-    ).then((res) => res.json()).then((res) => {
-      setTemp(res.current.temp_c);
-      setLocaltime(res.location.localtime);
-      setCondition(res.current.condition.text);
-      setIcon(res.current.condition.icon);
-      setInput("");
-    });
+    try {
+      fetch(
+        `https://api.weatherapi.com/v1/current.json?key=${key}&q=${location}`,
+      ).then((res) => res.json()).then((res) => {
+        setTemp(res.current.temp_c);
+        setLocaltime(res.location.localtime);
+        setCondition(res.current.condition.text);
+        setIcon(res.current.condition.icon);
+        setInput("");
+      });
+    } catch (error) {
+      console.log("Error", error);
+    }
   }, [location]);
   return (
     <WeatherContextProvider
@@ -54,7 +58,7 @@ function App() {
             </div>
 
             <div className="text-5xl font-extrabold tracking-tight">
-              {temp}
+              {temp}℃
             </div>
             <p className="text-sm font-medium text-blue-100 mt-1">
               {condition}
